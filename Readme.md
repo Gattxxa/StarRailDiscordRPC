@@ -22,7 +22,7 @@ Windowsの言語設定が日本語以外の場合、正常な動作を保証で�
 
 | Version  | Time | Download |
 | - | - | - |
-| **latest ☆**  | **undefined**  | **[こちら](https://github.com/Gattxxa/StarRailDiscordRPC/releases)** |
+| **latest ☆**  | **undefined**  | **[こちら](https://github.com/Gattxxa/StarRailDiscordRPC/releases/latest)** |
 | 1.0.3  | 2023-05-05  | 配布終了 |
 | 1.0.2  | 2023-05-03  | 配布終了 |
 | 1.0.1  | 2023-04-30  | 配布終了 |
