@@ -1,3 +1,4 @@
+import configparser
 import os
 from pystray import Icon, MenuItem, Menu
 from PIL import Image
@@ -12,7 +13,7 @@ import win32gui
 
 WINDOW_TITLE: str = "崩壊：スターレイル"
 CLIENT_ID: str = "1101576946086838365"
-VERSION: str = "1.1.0"
+VERSION: str = "1.2.0"
 WEBSITE: str = "https://download.gattxxa.org/StarRailDiscordRPC/"
 
 cooldown: int = 0
@@ -20,6 +21,9 @@ now_playing: bool = False
 status_updated: bool = False
 timestamp = time.mktime(time.localtime())
 client: rpc.WinDiscordIpcClient = rpc.DiscordIpcClient
+
+ini = configparser.ConfigParser()
+ini.read('./config.ini', encoding='utf-8')
 
 
 def resource_path(relative_path):
@@ -49,6 +53,7 @@ def update_status():
         if not status_updated:
             status_updated = True
             timestamp = time.mktime(time.localtime())
+            
         if cooldown < 1:
             cooldown = 300
             client = rpc.DiscordIpcClient.for_platform(CLIENT_ID)
@@ -58,9 +63,18 @@ def update_status():
                 },
                 "assets": {
                     "large_image": "application",
-                    "large_text": "崩壊：スターレイル"
+                    "large_text": "崩壊：スターレイル",
                 }
             }
+
+            uid = ini.get('Profile', 'UID')
+            character = ini.get('Profile', 'Character')
+
+            if uid: 
+                activity["details"] = f"UID:{uid}"
+            if character:
+                activity["assets"]["small_image"] = f"{character}"
+
             client.set_activity(activity)
                     
     elif status_updated:

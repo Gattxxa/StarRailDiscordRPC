@@ -6,7 +6,7 @@
 
 ## 使い方
 ### 概要
-崩壊：スターレイルを起動している間、DiscordのアクティビティにRich Presence として反映します。  
+崩壊：スターレイルを起動している間、Discordのアクティビティに Rich Presence として反映します。  
 Windowsの言語設定が日本語以外の場合、正常な動作を保証できません。  
 起動後はタスクトレイに常駐します。右クリックで出現するメニューから終了させられます。  
 このアプリケーションは多重起動できますが推奨しません。  
@@ -28,7 +28,15 @@ Windowsの言語設定が日本語以外の場合、正常な動作を保証で�
 | 1.0.1  | 2023-04-30  | 配布終了 |
 | 1.0.0 | 2023-04-29 | 配布終了 |
 
+## config.ini sample
+```
+[Profile]
+UID = 123456789
+Character = march7th
+```
+
 ## スペシャルサンクス
 - [niveshbirangal / discord-rpc](https://github.com/niveshbirangal/discord-rpc)  
 - [【Python編】DiscordRPCを使ってプロフィールに乗せるまで](https://qiita.com/taitaitatata/items/1bcec7c09424518fb2af)
 - [Windows のタスクトレイに Python アプリを常駐させ定期的にプログラムを実行する](https://qiita.com/bassan/items/3025eeb6fd2afa03081b)  
+- [Star Rail Station Wiki](https://starrailstation.com/)
