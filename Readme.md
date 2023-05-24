@@ -1,6 +1,6 @@
 # <img src="https://download.gattxxa.org/StarRailDiscordRPC/favicon.ico" align="top" style="width: 1.4em"> StarRailDiscordRPC.exe  
 **[崩壊：スターレイル](https://hsr.hoyoverse.com/)を起動している間、DiscordのアクティビティにRich Presenceで表示させるやつ。**  
-仕様的に日本ユーザー向けです。
+Support to Japanese and English.
   
 ![](https://download.gattxxa.org/StarRailDiscordRPC/screenshot.png)
 

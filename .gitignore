@@ -4,6 +4,7 @@ __pycache__/
 src/build/
 src/dist/
 *.spec
+test.py
 
 # Windows thumbnail cache files
 Thumbs.db
