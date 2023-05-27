@@ -55,7 +55,7 @@ def find_window(hwnd, _):
 def setup_client(timestamp):
     global client 
 
-    if language == "en-us":
+    if language == "ja-jp":
         window_title = WINDOW_TITLE_JP
         client_id = CLIENT_ID_JP
     else:
