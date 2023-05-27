@@ -2,6 +2,7 @@ import configparser
 import os
 from pystray import Icon, MenuItem, Menu
 from PIL import Image
+import re
 import rpc
 import schedule
 import sys
@@ -17,7 +18,7 @@ CLIENT_ID_ENG: str = "1110781234793160735"
 WINDOW_TITLE_JP: str = "崩壊：スターレイル"
 CLIENT_ID_JP: str = "1101576946086838365"
 
-VERSION: str = "1.2.1"
+VERSION: str = "1.2.2"
 WEBSITE: str = "https://download.gattxxa.org/StarRailDiscordRPC/"
 
 cooldown: int = 0
@@ -54,7 +55,7 @@ def find_window(hwnd, _):
 def setup_client(timestamp):
     global client 
 
-    if language == "ja-jp":
+    if language == "en-us":
         window_title = WINDOW_TITLE_JP
         client_id = CLIENT_ID_JP
     else:
@@ -80,6 +81,14 @@ def setup_client(timestamp):
     if character:
         activity["assets"]["small_image"] = f"{character}"
 
+    try:
+        label = ini.get('Profile', 'Label')
+        url = ini.get('Profile', 'URL')
+        if re.match(r"https?://", url):
+            activity["buttons"] = [{"label": label, "url": url}]
+    except:
+        pass
+
     client.set_activity(activity)
 
 
@@ -98,7 +107,7 @@ def update_status():
             timestamp = time.mktime(time.localtime())
             
         if cooldown < 1:
-            cooldown = 300
+            cooldown = 180
             setup_client(timestamp)
                 
     elif status_updated:
