@@ -39,10 +39,12 @@ def find_window(hwnd, _):
 
 
 def setup_client(timestamp):
-    global client 
+    global client, ini
+
+    ini.read("./config.ini", encoding="utf-8")
 
     client = rpc.DiscordIpcClient.for_platform(APPLICATION_ID)
-
+    
     activity = {
         "timestamps": {
             "start": timestamp
@@ -64,8 +66,8 @@ def setup_client(timestamp):
             activity["assets"]["small_text"] = f"{username}"
 
     try:
-        label = ini.get('Profile', 'ButtonLabel')
-        url = ini.get('Profile', 'URL')
+        label = ini.get("Profile", "ButtonLabel")
+        url = ini.get("Profile", "URL")
         if re.match(r"https?://", url):
             activity["buttons"] = [{"label": label, "url": url}]
     except:
@@ -81,19 +83,19 @@ def update_status():
         win32gui.EnumWindows(find_window, None)
     except:
         return
-        
+    print(timer)
     if now_playing and status_updated:
         timer -= 1
-    
+
+        if timer < 1:
+            timer = 30
+            setup_client(timestamp)
+
     elif now_playing:
         if not status_updated:
             status_updated = True
             timestamp = time.mktime(time.localtime())
-            
-        if timer < 1:
-            timer = 180
-            setup_client(timestamp)
-                
+                    
     elif status_updated:
         status_updated = False
         timer = 0

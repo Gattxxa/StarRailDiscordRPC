@@ -32,7 +32,11 @@ Support to Japanese and English named window.
 ```
 [Profile]
 UID = 123456789
+Username = 三月なのか
 Character = march7th
+ButtonLabel = 『崩壊：スターレイル』公式サイト
+URL = https://hsr.hoyoverse.com/
+Version = x.y.z
 ```
 
 ## スペシャルサンクス
