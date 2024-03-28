@@ -1,8 +1,8 @@
 # 
 __pycache__/
 .venv/
-src/build/
-src/dist/
+build/
+dist/
 *.spec
 test.py
 

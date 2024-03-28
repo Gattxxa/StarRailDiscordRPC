@@ -8,28 +8,20 @@ import schedule
 import sys
 import threading
 import time
-import webbrowser
 import win32gui
 
+WINDOW_TITLES: list[str] = ["崩壊：スターレイル", "Honkai: Star Rail"]
+APPLICATION_ID: str = "1101576946086838365"
 
-WINDOW_TITLE_ENG: str = "Honkai: Star Rail"
-CLIENT_ID_ENG: str = "1110781234793160735"
-
-WINDOW_TITLE_JP: str = "崩壊：スターレイル"
-CLIENT_ID_JP: str = "1101576946086838365"
-
-VERSION: str = "1.2.2"
-WEBSITE: str = "https://download.gattxxa.org/StarRailDiscordRPC/"
-
-cooldown: int = 0
+timer: int = 0
 now_playing: bool = False
-language: str = "en-us"
 status_updated: bool = False
+
 timestamp = time.mktime(time.localtime())
 client: rpc.WinDiscordIpcClient = rpc.DiscordIpcClient
 
 ini = configparser.ConfigParser()
-ini.read('./config.ini', encoding='utf-8')
+ini.read("./config.ini", encoding="utf-8")
 
 
 def resource_path(relative_path):
@@ -39,50 +31,40 @@ def resource_path(relative_path):
 
 
 def find_window(hwnd, _):
-    global now_playing, language
-    
-    if WINDOW_TITLE_ENG in win32gui.GetWindowText(hwnd):
+    global now_playing
+
+    if win32gui.GetWindowText(hwnd) in WINDOW_TITLES:
         now_playing = True
-        language = "en-us"
-        return hwnd
-    
-    if WINDOW_TITLE_JP in win32gui.GetWindowText(hwnd):
-        now_playing = True
-        language = "ja-jp"
         return hwnd
 
 
 def setup_client(timestamp):
     global client 
 
-    if language == "ja-jp":
-        window_title = WINDOW_TITLE_JP
-        client_id = CLIENT_ID_JP
-    else:
-        window_title = WINDOW_TITLE_ENG
-        client_id = CLIENT_ID_ENG
+    client = rpc.DiscordIpcClient.for_platform(APPLICATION_ID)
 
-    client = rpc.DiscordIpcClient.for_platform(client_id)
     activity = {
         "timestamps": {
             "start": timestamp
         },
         "assets": {
-            "large_image": "application",
-            "large_text": f"{window_title}",
+            "large_image": "_application",
         }
     }
 
-    uid = ini.get('Profile', 'UID')
-    character = ini.get('Profile', 'Character')
+    uid = ini.get("Profile", "UID")
+    username = ini.get("Profile", "Username")
+    character = ini.get("Profile", "Character")
 
     if uid: 
         activity["details"] = f"UID:{uid}"
     if character:
         activity["assets"]["small_image"] = f"{character}"
+        if username:
+            activity["assets"]["small_text"] = f"{username}"
 
     try:
-        label = ini.get('Profile', 'Label')
+        label = ini.get('Profile', 'ButtonLabel')
         url = ini.get('Profile', 'URL')
         if re.match(r"https?://", url):
             activity["buttons"] = [{"label": label, "url": url}]
@@ -93,39 +75,42 @@ def setup_client(timestamp):
 
 
 def update_status():
-    global cooldown, timestamp, now_playing, status_updated, client
+    global timer, timestamp, now_playing, status_updated, client
 
-    try: win32gui.EnumWindows(find_window, None)
-    except: return
+    try:
+        win32gui.EnumWindows(find_window, None)
+    except:
+        return
         
     if now_playing and status_updated:
-        cooldown -= 1
+        timer -= 1
     
     elif now_playing:
         if not status_updated:
             status_updated = True
             timestamp = time.mktime(time.localtime())
             
-        if cooldown < 1:
-            cooldown = 180
+        if timer < 1:
+            timer = 180
             setup_client(timestamp)
                 
     elif status_updated:
         status_updated = False
-        cooldown = 0
+        timer = 0
         try: client.close()
         except: pass     
 
     now_playing = False
 
 
+# .exe
 class StarRailDiscordRPC:
     def __init__(self, image):
         self.status = False
         text = "StarRailDiscordRPC.exe"
         icon = Image.open(image)
         menu = Menu(
-                    MenuItem(f"Version {VERSION}", self.open_website),
+                    MenuItem(f"Version: {ini.get('Profile', 'Version')}", None),
                     MenuItem("Exit", self.stop_program),
                 )
         self.icon = Icon(name=text, title=text, icon=icon, menu=menu)
@@ -145,9 +130,6 @@ class StarRailDiscordRPC:
     def stop_program(self):
         self.status = False
         self.icon.stop()
-
-    def open_website(self):
-        webbrowser.open(WEBSITE)
 
 
 if __name__ == "__main__":
