@@ -1,8 +1,9 @@
-# <img src="https://download.gattxxa.org/StarRailDiscordRPC/favicon.ico" align="top" style="width: 1.4em"> StarRailDiscordRPC.exe  
+# <img src="https://download.gattxxa.org/StarRailDiscordRPC/favicon.ico" align="top" width="48"> StarRailDiscordRPC.exe  
 **[崩壊：スターレイル](https://hsr.hoyoverse.com/)を起動している間、DiscordのアクティビティにRich Presenceで表示させるやつ。**  
 Support to Japanese and English named window.
   
-![](https://download.gattxxa.org/StarRailDiscordRPC/screenshot.png)
+![screenshot](https://github.com/Gattxxa/StarRailDiscordRPC/assets/61118664/2c476d88-7a71-4c05-9897-7788fac16b6f)
+
 
 ## 使い方
 ### 概要
